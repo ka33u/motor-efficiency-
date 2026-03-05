@@ -1,0 +1,68 @@
+<view class="container">
+  <view class="header">
+    <view class="title">GB/T 30253-2024</view>
+    <view class="subtitle">变频控制同步电机 一级能效效率查询</view>
+  </view>
+
+  <view class="input-section">
+    <view class="input-group">
+      <text class="input-label">转速 (r/min)</text>
+      <input
+        type="digit"
+        placeholder="输入转速（建议 45~6000）"
+        value="{{speed}}"
+        bindinput="onSpeedInput"
+        bindconfirm="onQuery"
+        class="input-field"
+      />
+    </view>
+
+    <view class="input-group">
+      <text class="input-label">功率 (kW)</text>
+      <input
+        type="digit"
+        placeholder="0.55 ~ 1250"
+        value="{{power}}"
+        bindinput="onPowerInput"
+        bindconfirm="onQuery"
+        class="input-field"
+      />
+    </view>
+
+    <button class="query-btn" bindtap="onQuery">查 询</button>
+  </view>
+
+  <view class="result-section" wx:if="{{result}}">
+    <view class="result-card" wx:if="{{!result.error}}">
+      <view class="result-main">
+        <text class="result-value">{{result.efficiency}}</text>
+        <text class="result-unit">%</text>
+      </view>
+      <view class="result-badge" wx:if="{{result.interpolated}}">
+        <text class="badge-text">插值计算</text>
+      </view>
+      <view class="result-badge exact" wx:else>
+        <text class="badge-text">标准表值</text>
+      </view>
+      <view class="result-detail">
+        <view class="detail-row">
+          <text class="detail-label">转速参考：</text>
+          <text class="detail-value">{{result.speedLabel}}</text>
+        </view>
+        <view class="detail-row">
+          <text class="detail-label">功率参考：</text>
+          <text class="detail-value">{{result.powerLabel}}</text>
+        </view>
+      </view>
+    </view>
+
+    <view class="error-card" wx:if="{{result.error}}">
+      <text class="error-text">{{result.error}}</text>
+    </view>
+  </view>
+
+  <view class="footer">
+    <text class="footer-text">数据依据 GB/T 30253-2024 标准</text>
+    <text class="footer-text">非标值采用线性插值计算，仅供参考</text>
+  </view>
+</view>
